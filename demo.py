@@ -36,7 +36,7 @@ def draw_registration_result(source, target, transformation):
 def execute_global_registration(
         source_down, target_down, reference_desc, target_desc, distance_threshold):
 
-    result = open3d.pipelines.registration_ransac_based_on_feature_matching(
+    result = open3d.pipelines.registration.registration_ransac_based_on_feature_matching(
             source_down, target_down, reference_desc, target_desc,
             distance_threshold,
             open3d.pipelines.registration.TransformationEstimationPointToPoint(False), 4,
@@ -84,10 +84,10 @@ test_desc = np.load('./data/demo/32_dim/cloud_bin_1.ply_0.150000_16_1.750000_3DS
 test_desc = test_desc['data']
 
 # Save as open3d feature 
-ref = open3d.registration.Feature()
+ref = open3d.pipelines.registration.Feature()
 ref.data = reference_desc.T
 
-test = open3d.registration.Feature()
+test = open3d.pipelines.registration.Feature()
 test.data = test_desc.T
 
 # Load point cloud and extract the keypoints
