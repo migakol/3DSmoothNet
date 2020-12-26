@@ -38,6 +38,7 @@ def execute_global_registration(
 
     result = open3d.pipelines.registration.registration_ransac_based_on_feature_matching(
             source_down, target_down, reference_desc, target_desc,
+            False,
             distance_threshold,
             open3d.pipelines.registration.TransformationEstimationPointToPoint(False), 4,
             [open3d.pipelines.registration.CorrespondenceCheckerBasedOnEdgeLength(0.9),
