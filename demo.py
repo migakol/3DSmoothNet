@@ -30,19 +30,19 @@ def draw_registration_result(source, target, transformation):
     source_temp.paint_uniform_color([1, 0.706, 0])
     target_temp.paint_uniform_color([0, 0.651, 0.929])
     source_temp.transform(transformation)
-    draw_geometries([source_temp, target_temp])
+    open3d.visualization.draw_geometries([source_temp, target_temp])
 
 
 def execute_global_registration(
         source_down, target_down, reference_desc, target_desc, distance_threshold):
 
-    result = registration_ransac_based_on_feature_matching(
+    result = open3d.pipelines.registration_ransac_based_on_feature_matching(
             source_down, target_down, reference_desc, target_desc,
             distance_threshold,
-            TransformationEstimationPointToPoint(False), 4,
-            [CorrespondenceCheckerBasedOnEdgeLength(0.9),
-            CorrespondenceCheckerBasedOnDistance(distance_threshold)],
-            RANSACConvergenceCriteria(4000000, 500))
+            open3d.pipelines.registration.TransformationEstimationPointToPoint(False), 4,
+            [open3d.pipelines.registration.CorrespondenceCheckerBasedOnEdgeLength(0.9),
+            open3d.pipelines.registration.CorrespondenceCheckerBasedOnDistance(distance_threshold)],
+            open3d.pipelines.registration.RANSACConvergenceCriteria(4000000, 500))
     return result
 
 def refine_registration(source, target, source_fpfh, target_fpfh, voxel_size):
@@ -91,8 +91,8 @@ test = open3d.registration.Feature()
 test.data = test_desc.T
 
 # Load point cloud and extract the keypoints
-reference_pc = read_point_cloud(point_cloud_files[0])
-test_pc = read_point_cloud(point_cloud_files[1])
+reference_pc = open3d.io.read_point_cloud(point_cloud_files[0])
+test_pc = open3d.io.read_point_cloud(point_cloud_files[1])
 
 indices_ref = np.genfromtxt(keypoints_files[0])
 indices_test = np.genfromtxt(keypoints_files[1])
@@ -102,11 +102,11 @@ test_pc_keypoints = np.asarray(test_pc.points)[indices_test.astype(int),:]
 
 
 # Save ad open3d point clouds
-ref_key = PointCloud()
-ref_key.points = Vector3dVector(reference_pc_keypoints)
+ref_key = open3d.geometry.PointCloud()
+ref_key.points = open3d.utility.Vector3dVector(reference_pc_keypoints)
 
-test_key = PointCloud()
-test_key.points = Vector3dVector(test_pc_keypoints)
+test_key = open3d.geometry.PointCloud()
+test_key.points = open3d.utility.Vector3dVector(test_pc_keypoints)
 
 result_ransac = execute_global_registration(ref_key, test_key,
             ref, test, 0.05)
