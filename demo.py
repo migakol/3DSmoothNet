@@ -57,7 +57,9 @@ def refine_registration(source, target, source_fpfh, target_fpfh, voxel_size):
     return result
 
 # Run the input parametrization
-point_cloud_files = ["./data/demo/cloud_bin_0.ply", "./data/demo/cloud_bin_1.ply"]
+# point_cloud_files = ["./data/demo/cloud_bin_0.ply", "./data/demo/cloud_bin_1.ply"]
+point_cloud_files = ["/Users/michaelko/Downloads/wetransfer-845f7e/15dec2020_horisontalRulerSection11.ply",
+                     "/Users/michaelko/Downloads/wetransfer-845f7e/15dec2020_horisontalRulerSection21.ply"]
 keypoints_files = ["./data/demo/cloud_bin_0_keypoints.txt", "./data/demo/cloud_bin_1_keypoints.txt"]
 
 
@@ -114,10 +116,11 @@ result_ransac = execute_global_registration(ref_key, test_key,
 
 
 # First plot the original state of the point clouds
-draw_registration_result(reference_pc, test_pc, np.identity(4))
+# draw_registration_result(reference_pc, test_pc, np.identity(4))
 
 
 # Plot point clouds after registration
+print(result_ransac.transformation)
 print(result_ransac)
 draw_registration_result(reference_pc, test_pc,
             result_ransac.transformation)
