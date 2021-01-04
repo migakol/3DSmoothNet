@@ -89,10 +89,11 @@ def compute_mesh(pcd, depth=9, mesh_name=''):
     :return:
     """
 
+
     mesh, densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(pcd, depth=depth)
 
     # Smoothing
-    # mesh = mesh.filter_smooth_simple(number_of_iterations=20)
+    mesh = mesh.filter_smooth_simple(number_of_iterations=1)
 
     mesh.remove_non_manifold_edges()
     nonmanifold = mesh.get_non_manifold_vertices()
@@ -178,13 +179,13 @@ def basic_test(pcd):
 if __name__ == '__main__':
     print('Compute keypoints on a surface')
 
-    # filename = '/Users/michaelko/Downloads/wetransfer-845f7e/21_small.ply'
-    filename = '/Users/michaelko/Downloads/wetransfer-845f7e/small_5.ply'
+    filename = '/Users/michaelko/Downloads/wetransfer-845f7e/15dec2020_horisontalRulerSection11.ply'
+    # filename = '/Users/michaelko/Downloads/wetransfer-845f7e/small_5.ply'
     pcd = o3d.io.read_point_cloud(filename)
 
     # preprocessing is not neeed for small_5 mesh
     # pcd = preprocess(pcd, filename='/Users/michaelko/Downloads/wetransfer-845f7e/small_5.ply')
-    compute_mesh(pcd, depth=9, mesh_name='/Users/michaelko/Downloads/wetransfer-845f7e/mesh1.ply')
+    compute_mesh(pcd, depth=11, mesh_name='/Users/michaelko/Downloads/wetransfer-845f7e/mesh11.ply')
     # compute_mesh(pcd, depth=11, mesh_name='/Users/michaelko/Downloads/wetransfer-845f7e/mesh2.ply')
     # compute_mesh(pcd, depth=7, mesh_name='/Users/michaelko/Downloads/wetransfer-845f7e/mesh3.ply')
 
